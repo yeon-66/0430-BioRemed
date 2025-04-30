@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReMed Bio</title>
+  <style>
+    html { background-color: black; word-break: keep-all; scroll-behavior: smooth; }
+    body, h1, h2, p, ol, ul { margin:0; padding:0; }
+
+    .wrapback { width:100vw; height: 645px; background-color: black; display:flex; justify-content:center;align-items:center; }
+
+    .wrapback2{ width:100vw; height: 1700px; background-color: black; display:flex; justify-content:center;align-items:center; }
+    .wrapwhite { width:1125px; height:645px; background-color: white; margin-left: 135px; padding-left: 100px; }
+    h2 { padding-top: 80px; padding-bottom: 30px; line-height: 1.3; font-size: 28px; text-align: left; }
+    h4 { margin-top:5px; margin-bottom: 120px }
+    .square2 {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 55px;
+      background-color:rgba(255, 255, 255, 0);
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .service-item {
+      flex: 1 1 0;
+      min-width: 220px;
+      max-width: 320px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .service-item h5 {
+      font-size: 1.2em;
+      color:#0000FF;
+      display: inline;
+      background-color: white;
+      padding: 10px;
+      border-radius: 16px;
+      margin-bottom: 40px;
+      margin-top: 0;
+      font-weight: bold;
+      text-align: left;
+    }
+    .service-item p {
+      font-size: 0.9em;
+      color: yellowgreen;
+      margin: 0;
+      text-align: left;
+    }
+     .wrap-center {display: flex;flex-direction: column;
+      align-items: center;justify-content: center;
+      min-height: 100vh;width: 100vw;
+      box-sizing: border-box;}
+      .content-box {
+      width: 100%;
+      max-width: 1125px;
+      min-height: 600px;
+      margin: 0 auto;
+      padding: 48px 24px 48px 24px;
+      background: white;
+      box-sizing: border-box;
+      border-radius: 36px;
+      box-shadow: 0 8px 48px 0 rgba(80,80,80,0.08);
+      position: relative;}
+
+      @media (max-width: 1200px) {
+      .content-box { max-width: 95vw; }
+    }
+    @media (max-width: 700px) {
+      .content-box { padding: 18px 4vw; border-radius: 16px; }
+      h2 { font-size: 1.25em; }
+    }
+
+    .wrapbackL { width:100vw; height: 1150px; background-color: black;display:flex; justify-content:center;align-items:center; }
+    .wrapbackF { width:100vw; height: 217px; background-color:greenyellow;display:flex; justify-content:center;align-items:center; }
+    .wrapnav { width:100vw; height:43px; background-color: black; padding:10px 0 5px; }
+    .wraptran { width:1125px; height:645px; margin-left: 135px; padding-left: 100px;  overflow: hidden;background: #111;display: flex;justify-content: center;align-items: center;}
+    .wrapwhite1 { width:1125px; height:1150px; background: linear-gradient(180deg, #fff 0%, #fff 0%, #616161 52%, #000 100%); margin-left: 135px; padding-left: 100px; }
+    .wrapblack { width:1125px; height:645px; background-color: black; color:white; padding-left: 100px; margin-left: 135px; position: relative; }
+     .wrapneon, .wrapneonB {
+      width:1125px; background-color:greenyellow; padding-left: 100px; margin-left:135px; position: relative; overflow: hidden;
+    }
+    .wrapneon { width:1125px; height:645px; background-color:greenyellow; padding-left: 100px; margin-left:135px;  position: relative;display:display: flex;flex-direction: column;justify-content: center;
+  align-items: center;}
+    .wrapneon img {max-width: 120%;height: auto;display: block;padding-left: 265px; z-index: 1;
+    padding-top: 100px;}
+    .wrapneonB {
+      width:1125px; height:1700px; background-color:greenyellow;
+      padding-left: 100px; margin-left:135px; color:blue;
+      position: relative; overflow: hidden;
+    }
+    .wrapneonK { width:1125px; height:1000px; background-color:greenyellow; padding-left: 100px; margin-left:135px; }
+    .wrapgrad {position: relative;width:1125px; height:800px; background: radial-gradient(circle, #fff 0%, #fff 48%, #000 100%); padding-left: 100px; margin-left:135px; overflow: hidden;}
+/*현미경*/ 
+.image-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+}
+.distorted-image, .clear-image {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: block;
+  pointer-events: none; /* 마우스 이벤트는 컨테이너에만 */
+}
+
+.distorted-image {
+  filter: url(#distort);
+  z-index: 1;
+}
+
+.clear-image {
+  z-index: 2;
+  --mask-x: 50%;
+  --mask-y: 50%;
+  --mask-size: 120px;
+  /* 원형 마스크: 커서 위치만 원본이 보임 */
+  mask-image: radial-gradient(circle var(--mask-size) at var(--mask-x) var(--mask-y), white 98%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle var(--mask-size) at var(--mask-x) var(--mask-y), white 98%, transparent 100%);
+  transition: mask-image 0.15s, -webkit-mask-image 0.15s;
+  pointer-events: none;
+  opacity: 1;
+}
+
+
+    .wrapfooter { background-color: greenyellow; margin-left:135px; padding-left: 25px; line-height:1.5; color:blue; padding-top:0; padding-bottom:20px; width:1200px; }
+    .flex { display: flex; justify-content: space-between; margin-right: 80px; align-items: center; }
+    .flexM { display: flex; align-items: center; }
+    .flexmd { display: flex; align-items: center; }
+    .flexheal { display: flex; align-items: center; }
+    .centertext { text-align: center; margin-right: 100px; }
+    .centered-text {position: absolute;top: 50%;left: 50%;
+  transform: translate(-50%, -50%);color: #fff; 
+  font-size: 2em; text-shadow: 0 0 10px #00fff0, 0 0 20px #00fff0; pointer-events: none; margin: 0;}
+    .square { width:300px; height: 400px; background-color: white; margin-top: 0 12px;flex-shrink: 0; border: 1px solid rgba(255,255,255,0.2);backdrop-filter: blur(8px);border-radius: 16px;padding: 24px;
+  box-sizing: border-box;}
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), 
+              transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.fade-in-section.visible {
+  opacity: 1;
+  transform: none;
+}
+
+    h1 { color: black; text-align:left; margin-left:135px; line-height: 1.5 }
+    nav { padding-top: 0; padding-bottom: 5px; position:fixed; width:100vw;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(255,255,255,0.2));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 4px 32px 0 rgba(31,38,135,0.1);
+      z-index: 100;
+    }
+    h3 { padding-left: 650px; padding-top: 355px; }
+    ul { list-style: none; padding-left: 0; }
+    ul li a { text-decoration: none; display: block; padding:8px 12px; color:white; }
+    ul li a:hover { background:greenyellow; color:#0000FF; transition: all 0.5s;border-radius:8px }
+    p { line-height: 1.6; }
+    img { display: block; }
+    
+    .img-small { width:400px; height: 400px; padding-top: 40px; padding-right: 190px; padding-bottom: 20px; }
+    .overlay { position: absolute; top: 43px; left: 0; padding-left: 100px; margin-left:0px; width: 1126px; height: 650px; background-color: rgba(0, 0, 0, 0.5); z-index: 0; }
+    .wrapblack > *:not(.overlay) { position: relative; z-index: 1; }
+
+    .shelf-container {
+  position: relative;
+  width: 1000px; /* mshelf.png와 동일한 크기 */
+  height: 1000px;
+  margin: 0 auto;
+}
+.shelf-item-container {
+  position: relative;
+  display: inline-block;
+}
+
+.shelf-item {
+  transition: transform 0.5s;
+  cursor: pointer;
+  display: block;
+}
+
+.shelf-item-container:hover .shelf-item {
+  transform: rotateY(180deg);
+}
+
+.desc-box {
+  display: none;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -110%);
+  min-width: 140px;
+  background: rgba(30,30,30,0.95);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  text-align: center;
+  line-height: 1.4;
+  z-index: 10;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.shelf-item-container:hover .desc-box {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -130%);}
+  to { opacity: 1; transform: translate(-50%, -110%);}
+}
+
+.img-large {
+  width: 1000px;
+  height: 1000px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 80px; padding-bottom: 50px;
+  z-index: 1;
+}
+.shelf-row {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+.shelf-item {
+  width: 100%;  
+  height: 200px;
+  object-fit: contain;
+}
+
+
+    .button-group {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 20px;
+}
+  .main-btn {
+  padding: 16px 24px;
+  font-size: 0.9em;
+  border-radius: 28px;
+  border: none;
+  background: linear-gradient(90deg, #a3ffb8 0%, #d2ffd6 100%);
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  margin-bottom: 20px;
+}
+.main-btn:hover {
+  background: linear-gradient(90deg, #6ee7b7 0%, #a7f3d0 100%);
+  color: #006644;
+  transform: translateY(-2px) scale(1.04);
+}
+
+  .bubble-area {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, 
+        rgba(255,255,255,0.9) 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        rgba(255,255,255,0.1) 100%);
+      box-shadow: 0 4px 15px rgba(180,180,255,0.15);
+      animation: bubble-rise 8s linear forwards;
+      filter: blur(1px);
+      opacity: 0.8;}
+
+      .blink-text {
+  font-size: 1em; 
+  top: 60%; 
+  color: #fff;
+  text-shadow: 0 0 8px #00fff0, 0 0 16px #00fff0;
+  animation: blink 3s steps(0.2, start) infinite;
+  opacity: 1;
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0;
+  width: max-content;
+  text-align: center;
+}
+.review-slider {
+  display: flex;
+  gap: 24px;
+  width: calc(3 * 300px + 2 * 24px);
+  animation: slideReviews 9s linear infinite;
+}
+.review-box {
+  min-width: 300px;
+  height: 180px;
+  background: whitesmoke;
+  color: blue;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  display: block;
+  padding-top: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  user-select: none;
+}
+.kit-slider {
+  display: flex;
+  gap: 24px;
+  animation: slideKit 20s linear infinite;
+  padding: 40px 0;
+}
+
+@keyframes slideKit {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% + 1125px)); }
+}
+
+@keyframes slideReviews {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-calc(3 * 300px + 2 * 24px)); }
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  49% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
+    }
+    @keyframes bubble-rise {
+      0% { transform: translateY(0) scale(0.7); opacity: 0.8; }
+      50% { opacity: 0.6; }
+      100% { transform: translateY(-1700px) scale(0.4) translateX(var(--drift, 0px)); opacity: 0.1; }
+    }
+     .wrapneonB img { position: relative; z-index: 2; }
+
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrapnav">
+      <div class="flex">
+        <div class="logo">
+          <h1><span style="color:white; padding:0;">ReMed Bio</span></h1>
+        </div>
+        <ul class="flex">
+          <li><a href="#intro">Intro</a></li>
+          <li><a href="#ingredient">Ingredient</a></li>
+          <li><a href="#kit">Kit</a></li>
+          <li><a href="#review">Review</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section id="intro" class="wrapback" style="background-color: black;">
+    <div class="wrapblack" style="background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTF4Z2RhbzV2N2t4NzB0OTJzdXJiN3o4bDd3dWczaWMxNzBzeDEwdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/555tkRlHDlhwxXEDTZ/giphy.gif'); background-size: cover;background-attachment: fixed;height:700px;">
+      <div class="overlay"></div>
+      <h2 style="font-size: 38px;margin-top: 40px;">반복되는 일상 속에, 당신의 마음은<br>얼마나 잘 챙기고 있나요?</h2>
+      <h3 style="font-size: 24px;margin-bottom: 80px;">매일매일 해야 할 일만 챙기고 있진 않나요?</h3>
+    </div>
+    <div class="scroll-trigger" style="position: absolute; bottom: 0; height: 1px;"></div>
+  </section>
+
+  <section class="wrapback fade-in-section" style="background-color: black; background-size:cover; height: 800px;">
+    <div class="wrapneon" style="align-content: center;background-color: black; height: 800px;">
+
+     <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExa283dW9zaG5kdmFxdnZwNXNvNXlneHVnam83aHV1eHAweHRhMHk5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD6ydPRgEPllYQM/giphy.gif" alt="ReMed Bio GIF">
+  <h2 class="centered-text">ReMed Bio</h2>
+  <p class="centered-text blink-text">모든 감정에 대한 치료제,<br>모든 후회와 슬픔의 치료법</p>
+    </div>
+  </section>
+
+  <section class="wrapback">
+    <div class="wrapwhite" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('lab.jpg');background-size: cover;background-attachment: fixed;">
+      <h2 style="color: white;">지친 현대인들을 위한<br>마음 챙김 서비스를 제공합니다.</h2>
+      <h4 style="font-size:18px;color:white;">스스로 키워가는 건강한 일상</h4>
+      <div class="square2">
+        <div class="service-item">
+          <h5>Customer Mental Service</h5>
+          <p>마음의 병 치료부터 예방, 관리까지 소비자의 필요를 충족하는 안전하고 편리한 솔루션을 제공합니다.</p>
+        </div>
+        <div class="service-item">
+          <h5>Imagination based Development</h5>
+          <p>최신 연구 성과와 과학적 검증을 기반으로, 상상력이<br>더해진 혁신적인 제품과 서비스를 개발합니다.</p>
+        </div>
+        <div class="service-item">
+          <h5>Preservation of Memories</h5>
+          <p>감정을 수확하고, 기억을 박제하고, 순간을 저장<br>합니다. 좋았던 기억을 되살리고 부정적인 기억을
+          <br>예방하는 것을 목표로 합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="ingredient" class="wrapback2" style="background-image:linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.45)),url('bioshelf.jpg');background-size:80%; ">
+    <div class="wrapneonB">
+    <div class="bubble-area"></div>
+    <h2>ReMed Bio는 엄선된 재료만을 사용해<br>제품을 생산하고 있습니다.</h2>
+    <h5><span style="font-size:1.2rem;color:white;display: inline; background-color:grey;padding: 6px;border-radius: 4px;">중요한 원료 중 일부를 현재 한정적으로 열람 가능합니다.</h5>
+    <div class="shelf-container" style="position: relative; width: 1000px; height: 1000px; margin: 0 auto;">
+  <img src="mshelf.png" class="img-large" style="position: absolute; left: 0; top: 0; z-index: 1;">
+
+  <div class="shelf-row" style="position: absolute; left: 125px; top: 295px; width: 750px; display: flex; justify-content: space-between; z-index: 2;">
+     <div class="shelf-item-container">
+    <img src="centi.png" class="shelf-item">
+      <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">백족</span><br>헛된 것을 없애고 삿된 것을 쫓습니다. 막힌 것을 뚫는 데에 주로 이용됩니다. </div>
+    </div>
+    <div class="shelf-item-container">
+    <img src="sighf.png" class="shelf-item">
+      <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">한숨 포자</span><br>우울한 한숨의 농축 추출물로, 내면을 더욱 깊이 성찰하게 합니다.</div>
+    </div>
+       <div class="shelf-item-container">
+    <img src="bbf.png" class="shelf-item">
+      <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">뼈,피,살</span><br>무언가의 뼈와 피와 살이었던 것.<br>안심하세요, 완벽하게 안전합니다. 뭐든지 될 수 있을 것만 같습니다.</div>
+    </div>
+  </div>
+
+  <div class="shelf-row" style="position: absolute; left: 125px; top: 525px; width: 750px; display: flex; justify-content: space-between; z-index: 2;">
+     <div class="shelf-item-container">
+    <img src="beetle.png" class="shelf-item">
+     <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">중금속 딱정벌레</span><br>금속성의 수많은 다리들이 인간의 감각으로 감지하지 못하는 미묘한 찰나들을 포착하는 것을 도와줍니다.</div>
+  </div>
+   <div class="shelf-item-container">
+    <img src="bdust.png" class="shelf-item">
+     <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">책먼지</span><br>오래된 기억을 불러오는데 제일 효과가 좋은 재료 중 하나입니다.<br>본사와 제휴된 고서점에서 제공받습니다.
+</div>
+  </div>
+   <div class="shelf-item-container">
+    <img src="wmel.png" class="shelf-item">
+     <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">원시 수박</span><br>과거의 모습을 간직하고 있는 과채 재료 중 하나입니다.<br>혼란스러운 마음을 가다듬는데 주로 사용됩니다.</div>
+  </div>
+  </div>
+
+  <div class="shelf-row" style="position: absolute; left: 120px; top: 760px; width: 750px; display: flex; justify-content: space-between; z-index: 2;">
+     <div class="shelf-item-container">
+    <img src="coral.png" class="shelf-item">
+     <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">백화산호 가지</span><br>극심한 스트레스로 백화 현상을 겪는 산호의 가지입니다.누구보다 당신의 스트레스와 분노를 잘 이해할 수 있습니다.</div>
+  </div>
+     <div class="shelf-item-container">
+    <img src="pmush.png" class="shelf-item">
+     <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">환상 흙버섯</span> <br>치명적이지 않을 정도의 독을 가진 환상 버섯 계열 중 하나입니다. 적당한 양의 환각이 일상 생활에 필요할지도 모릅니다. </div>
+  </div>
+     <div class="shelf-item-container">
+    <img src="homun.png" class="shelf-item">
+     <div class="desc-box"><span style="color:yellowgreen;font-size:1.2rem;line-height: 2;">호문쿨루스</span><br>저희가 쓰는 원료는 일반적인 호문쿨루스와는 다르게 윤리적인 문제로부터 완전히 자유롭습니다.<br><span style="color:red;">자세한 사용법과 제조법은 극비입니다.</span></div>
+  </div>
+  </div>
+</div>
+    <h2 class="centertext" style="margin-top: 100px; position: relative; z-index: 3;"><span style="color:blue;font-size: 20px;">공격성이나 위해를 끼칠 만한 요소는 제거했으니 안심하고 만져보셔도 좋습니다.</span></h2>
+    <p class="centertext" style="padding-top: 40px; position: relative; z-index: 3;"><span style="color:blue;">그 외 다른 재료들은 실험실 견학을 신청하면 체험하실 수 있습니다.</span></p>
+  </div>
+  </section>
+
+  <section class="wrapback"style="height:700px;background-image: url(https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExendxbm40eDFlODNxaHlub3p3ZWN4ZXkyNDdlejU0bGhxcDlvYmw5YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/F4nBKBWxcWzcdMJX2W/giphy.gif);">
+    <div class="wrapblack"style="height: 700px;background-color: rgba(0, 0, 0, 0.78);">
+      <div class="centertext">
+        <h2 style="text-align: center;">원인 모를 우울감, 짜증에 지치셨나요?</h2>
+        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTJua3cxemFqM3hyZ2ppY3NqanZiNGowZTFuZnViZ2hwYWFlaWM4MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7TkSOPplgsyfaxoeDa/giphy.gif" style="width:300px;height: 300px;padding-bottom: 25px;margin-left: 362px;">
+      <div class="button-group">
+        <button class="main-btn">정기 구독 49,900</button>
+        <button class="main-btn">1회용 키트 12,400</button>
+      </div>
+        <p>실험실에서 갓 나온 상품들이 당신의 감정 상태를 진단해드립니다.<br>마음 배양 키트를 사용해 당신의 감정을 키우고 분석해보세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="kit" class="wrapback"style="height:1000px; background-color:black;">
+    <div class="wrapneonK"style="overflow:hidden;">
+    <h2>키트 사용법</h2>
+
+    <p>키트는 개봉 후 1일 이내에 사용하세요. 공기와 접촉 시 변질 우려가 있습니다.<br>
+      개인의 마음과 몸을 떠난 감정은 연약합니다. 배양 후 약 24시간부터 시들기 시작하니 사진을 남겨두는 것을 잊지 마세요.<br>
+      <span style="color:darkgrey;">(감정의 종류마다 편차는 있으나, 약 36시간 후에는 무색투명한 액체로 분해됩니다.)</span>
+    </p>
+     <div class="kit-slider">
+      <div class="square">
+        <h2>1단계</h2>
+        <p>환기가 가능한 곳에서 키트를 개봉합니다</p>
+      </div>
+      <div class="square">
+        <h2>2단계</h2>
+        <p>동봉된 용액에 인간 유래 성분을 넣고 밀봉 후 투명해질 때까지 섞어주세요.
+     </p>
+      </div>
+      <div class="square">
+        <h2>3단계</h2>
+        <p>완전히 투명해지면 배지 위에 용액을 여섯 방울 떨어뜨립니다.</p>
+      </div>
+      <div class="square">
+        <h2>4단계</h2>
+        <p>잠시 공간에서 벗어나 배양중인 감정이 혼자만의 시간을 가질 수 있게 해 주세요.</p>
+      </div>
+      <div class="square">
+        <h2>1단계</h2>
+        <p>환기가 가능한 곳에서 키트를 개봉합니다</p>
+      </div>
+      <div class="square">
+        <h2>2단계</h2>
+        <p>동봉된 용액에 인간 유래 성분을 넣고 밀봉 후 투명해질 때까지 섞어주세요.
+     </p>
+      </div>
+      <div class="square">
+        <h2>3단계</h2>
+        <p>완전히 투명해지면 배지 위에 용액을 여섯 방울 떨어뜨립니다.</p>
+      </div>
+      <div class="square">
+        <h2>4단계</h2>
+        <p>잠시 공간에서 벗어나 배양중인 감정이 혼자만의 시간을 가질 수 있게 해 주세요.</p>
+      </div>
+    </div>
+    <p style="margin-top: 30px;">키트 사용 시 반드시 동봉된 사용 설명서와 유통기한을 준수하세요.<br>
+      개봉 직후 피로감, 짠 맛, 빛 번짐, 어지러움 등의 증상이 느껴진다면 즉시 키트를 밀봉하고 환기해주세요.<br>
+      <span style="color:red">주의사항을 지키지 않아 발생하는 모든 일에 (주) ReMed Bio는 책임지지 않습니다.</span>
+    </p>
+  </div>
+  </section>
+
+  <section class="wrapback"style="height: 800px;">
+    <div class="wrapgrad">
+    <h2 style="color:white;">감정이 안정되고 있습니다...</h2>
+    <div class="image-container">
+      <img src="oran.png" class="distorted-image">
+      <img src="oran.png" class="clear-image">
+    </div>
+  </div>
+  </section>
+  <svg style="display:none">
+  <filter id="distort">
+    <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="turbulence"/>
+    <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="15" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+  <section class="wrapbackL">
+    <div class="wrapwhite1">
+      <h2>배양된 감정을 살펴보세요<br>색, 형태에 따라 감정들을 분류합니다</h2>
+      
+      <div class="flexmd">
+        <img src="medium.png" class="img-small" alt="medium1">
+        <img src="medium.png" class="img-small" alt="medium2">
+      </div>
+      <div class="flexmd">
+        <img src="medium.png" class="img-small" alt="medium3">
+        <img src="medium.png" class="img-small" alt="medium4">
+      </div>
+    </div>
+  </section>
+
+    <section class="wrapback">
+    <div class="wrapwhite" style="background-image:linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.45)), url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjVwZGF1OWp0MG11NGxpZXdmc3liNzJnZjIydjI3eGxheDZwZGl5MCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ouJs5an1RtqEWaU1H7/giphy.gif');background-size: cover;color: white;background-attachment: fixed;">
+    <h2>배양된 감정이 너무 복합적이라 잘 모르겠나요?</h2>
+    <p style="font-size: 1.15rem;font-weight:bold;padding-bottom: 30px;">전문 상담원이 당신이 배양한 감정을 분석해드립니다.</p>
+    <p style="padding-bottom: 100px;color:greenyellow;">상담 시간:  AM. 4:00~6:00</p>
+    <p style="padding-bottom:20px;">페트리 접시에 배양된 감정의 사진을 찍어서 인화하거나 실물을 들고 AM 4:00~6:00에 화장실 거울에 비춰주세요.<br>빛을 완전히 차단해주세요. 전문 상담원이 거울 속에 나타나 친절하게 분석해드립니다.
+    </p>
+    <p> 기본적인 예의를 지키는 것을 잊지 마세요.</p>
+
+
+  </div>
+  </section>
+
+  <section class="wrapback" id="review">
+    <div class="wrapwhite" style="background-color:black;position: relative; overflow:hidden; ">
+    <h2 style="color:white; padding-bottom: 80px;">Review</h2>
+    <div class="review-slider">
+  <div class="review-box">정기 구독<p style="font-size: 0.8rem; margin-top: 40px;color: black; font-weight:normal;">화병 때문에 속는 셈 치고 주문했습니다.<br> 증거 채택될 줄은 몰랐는데 감정 키트랑 기억 시럽으로 합의금 받았어요. 합의금으로 정기 구독중입니다. <br> 번창하세요.</div>
+  <div class="review-box">1회용 키트 구매<p style="font-size: 0.8rem; margin-top: 40px;color:black;font-weight: normal;">장난 삼아 샀는데 상담원이 당장 병원 방문하라고 해서<br>정기 상담 받는 중입니다. 왜 이제 왔냐고 하시네요.<br>감사합니다.</div>
+  <div class="review-box">정기 구독<p style="font-size: 0.8rem; margin-top: 40px;color:black;font-weight: normal;">좋아요. 저번에 체험 신청해서 다녀왔는데  다른 분들도<br>꼭 신청해보세요.</div>
+  <div class="review-box">정기 구독<p style="font-size: 0.8rem; margin-top: 40px;font-weight: normal;color: black;">화병 때문에 속는 셈 치고 주문했습니다.<br> 증거 채택될 줄은 몰랐는데 감정 키트랑 기억 시럽으로 합의금 받았어요. 합의금으로 정기 구독중입니다. <br> 번창하세요.</div>
+  <div class="review-box">1회용 키트 구매<p style="font-size: 0.8rem; margin-top: 40px;color:black;font-weight: normal;">장난 삼아 샀는데 상담원이 당장 병원 방문하라고 해서<br>정기 상담 받는 중입니다. 왜 이제 왔냐고 하시네요.<br>감사합니다.</div>
+  <div class="review-box">정기 구독<p style="font-size: 0.8rem; margin-top: 40px;color:black;font-weight: normal;">좋아요. 저번에 체험 신청해서 다녀왔는데  다른 분들도<br>꼭 신청해보세요.</div>
+</div>
+  </div>
+  </section>
+
+  <footer>
+    <div class="wrapbackF" style="background-image:url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXgyNDJpbHk0bTlyaDMzczZzeXkzdjg4OG9jMnNyNWRtNGg3NHB3cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6rz0PI1TbksG1rNk8h/giphy.gif'); background-size:110px 110px;">
+      <div class="wrapfooter">
+        <h2 style="padding-top: 40px;">ReMed Bio</h2>
+        <section>contact <br> E-Mail <br> Address</section>
+        <section>ReMed Bio &copy; 2025 Jiyeon 모든 권리보유</section>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // 버블 생성 함수
+    function setupBubbles(areaSelector, sectionSelector, riseHeight) {
+      const area = document.querySelector(areaSelector);
+      function makeBubble() {
+        const section = sectionSelector ? document.querySelector(sectionSelector) : area.parentElement;
+        const w = section.clientWidth;
+        const size = Math.random() * 50 + 18;
+        const duration = Math.random() * 4 + 8;
+        const opacity = (Math.random() * 0.4 + 0.4).toFixed(2);
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.style.width = bubble.style.height = size + 'px';
+        bubble.style.left = (Math.random() * (w - size - 40) + 20) + 'px';
+        bubble.style.opacity = opacity;
+        bubble.style.animationDuration = duration + 's';
+        bubble.style.setProperty('--drift', (Math.random()*40-20)+'px');
+        bubble.style.animationName = 'bubble-rise';
+        bubble.style.setProperty('--rise', riseHeight || 1700);
+
+        area.appendChild(bubble);
+        setTimeout(()=>{ bubble.remove(); }, duration * 1000);
+      }
+      setInterval(makeBubble, 350);
+      // 초기 버블
+      for(let i=0;i<20;i++) setTimeout(makeBubble, i*120);
+    }
+
+    // ingredient 섹션
+    setupBubbles('.wrapneonB .bubble-area', '.wrapneonB', 1700);
+    // wrapneon 섹션
+    setupBubbles('.wrapneon .bubble-area', '.wrapneon', 645);
+    //
+   document.addEventListener("DOMContentLoaded", function () {
+  const fadeSections = document.querySelectorAll('.fade-in-section');
+  const nav = document.querySelector('nav');
+  const introTrigger = document.querySelector('#intro .scroll-trigger');
+
+  // nav 관찰 옵션
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        fadeSections.forEach(section => section.classList.add('visible'));
+      }
+    });
+  }, { 
+    rootMargin: '0px 0px -100% 0px', // nav의 하단이 뷰포트 하단에 닿을 때
+    threshold: 1.0 
+  });
+
+  // intro 섹션 트리거 관찰
+  const introObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        fadeSections.forEach(section => section.classList.add('visible'));
+      }
+    });
+  }, { threshold: 0.5 });
+
+  if (nav) navObserver.observe(nav);
+  if (introTrigger) introObserver.observe(introTrigger);
+});
+  const container = document.querySelector('.image-container');
+const clearImg = document.querySelector('.clear-image');
+
+container.addEventListener('mousemove', (e) => {
+  const rect = container.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  clearImg.style.setProperty('--mask-x', `${x}px`);
+  clearImg.style.setProperty('--mask-y', `${y}px`);
+});
+
+container.addEventListener('mouseleave', () => {
+  // 마우스가 나가면 원형 마스크를 화면 밖으로 이동(사라지게)
+  clearImg.style.setProperty('--mask-x', `-1000px`);
+  clearImg.style.setProperty('--mask-y', `-1000px`);
+});
+
+
+
+  </script>
+</body>
+</html>
+
+    
